@@ -7,11 +7,24 @@ Chef’d Connect API allows new partners to utilize Chef’d’s platform for me
 * Create, track, and cancel orders
 * Retrieve customer order history
 
+A common use case for Chef'd Connect is the following:
+
+| API User (Merchant)                                                                                         | Customer                      |
+| ----------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| 1. Retrieve a list of available products from the products endpoint                                         |                               |
+|                                                                                                             | 2. Select product(s) to order |
+| 3. Send the selected product(s) and qty(s) to the delivery dates endpoint to retrieve delivery date options |                               |
+|                                                                                                             | 4. Select a delivery date     |
+|                                                                                                             | 5. Checkout                   |
+| 6. Place an order for the desired product(s) and qty(s) to be delivered on the specified date               |                               |
+| 7. Listen for shipping updates provided via webhooks and provide them to the customer                       |                               |
+|                                                                                                             | 8. Cook like a pro!           |
+
 ## Base URL
 
 All URLs referenced in the documentation have the following base:
 
-| Staging                              | Production                   |
+|               Staging                |          Production          |
 | :----------------------------------: | :--------------------------: |
 | https://connect-staging.chefd.com/v2 | https://connect.chefd.com/v2 |
 
@@ -33,7 +46,7 @@ This portion of the documentation assumes you have already signed an agreement w
 
 After you have been confirmed as a Chef’d Connect merchant, you will be asked to choose an email address and password. Using these credentials, log into the merchant portal at the following address:
 
-| Staging                                      | Production                           |
+|                   Staging                    |              Production              |
 | :------------------------------------------: | :----------------------------------: |
 | https://connect-staging.chefd.com/auth/login | https://connect.chefd.com/auth/login |
 
@@ -220,7 +233,7 @@ _Definition_
 
 _Arguments_
 
-| Argument         | Description                                                                                | Required                |
+| Argument         | Description                                                                                |        Required         |
 | ---------------- | ------------------------------------------------------------------------------------------ | :---------------------: |
 | `zipcode`        | The destination zipcode for the order. Must be in 5 or 9 digit format.                     | :ballot_box_with_check: |
 | `is_residential` | Indicates the shipping address type. Boolean.                                              | :ballot_box_with_check: |
@@ -291,7 +304,7 @@ _Definition_
 
 _Arguments_
 
-| Argument            | Description                                                                                 | Required                |
+| Argument            | Description                                                                                 |        Required         |
 | ------------------- | ------------------------------------------------------------------------------------------- | :---------------------: |
 | `merchant_order_id` | An alphanumeric string used by the merchant to identify the order in the merchant's system. | :ballot_box_with_check: |
 | `total_price`       | The total cost of all line items plus shipping.                                             |                         |
@@ -449,7 +462,7 @@ _Definition_
 
 _Arguments_
 
-| Argument          | Description                                                | Required                |
+| Argument          | Description                                                |        Required         |
 | ----------------- | ---------------------------------------------------------- | :---------------------: |
 | supplier_order_id | The unique id that was returned when the order was placed. | :ballot_box_with_check: |
 
@@ -606,7 +619,7 @@ _Definition_
 
 _Arguments_
 
-| Argument          | Description                                   | Required                |
+| Argument          | Description                                   |        Required         |
 | ----------------- | --------------------------------------------- | :---------------------: |
 | supplier_order_id | The id of the order you would like to cancel. | :ballot_box_with_check: |
 
@@ -651,7 +664,7 @@ _Definition_
 
 _Arguments_
 
-| Argument    | Description                                                     | Required                |
+| Argument    | Description                                                     |        Required         |
 | ----------- | --------------------------------------------------------------- | :---------------------: |
 | customer_id | The id of the customer whose orders you would like to retrieve. | :ballot_box_with_check: |
 
