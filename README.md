@@ -9,16 +9,16 @@ Chef’d Connect API allows new partners to utilize Chef’d’s platform for me
 
 A common use case for Chef'd Connect is the following:
 
-| API User (Merchant)                                                                                         | Customer                      |
-| ----------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| 1. Retrieve a list of available products from the products endpoint                                         |                               |
-|                                                                                                             | 2. Select product(s) to order |
-| 3. Send the selected product(s) and qty(s) to the delivery dates endpoint to retrieve delivery date options |                               |
-|                                                                                                             | 4. Select a delivery date     |
-|                                                                                                             | 5. Checkout                   |
-| 6. Place an order for the desired product(s) and qty(s) to be delivered on the specified date               |                               |
-| 7. Listen for shipping updates provided via webhooks and provide them to the customer                       |                               |
-|                                                                                                             | 8. Cook like a pro!           |
+| API User (Merchant)                                                                                            | Customer                      |
+| -------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| 1. Retrieve a list of available products from the products endpoint                                            |                               |
+|                                                                                                                | 2. Select product(s) to order |
+| 3. Send the selected product(s) and qty(s) to the delivery dates<br>endpoint to retrieve delivery date options |                               |
+|                                                                                                                | 4. Select a delivery date     |
+|                                                                                                                | 5. Checkout                   |
+| 6. Place an order for the desired product(s) and qty(s) to be<br>delivered on the specified date               |                               |
+| 7. Listen for shipping updates provided via webhooks and provide<br>them to the customer                       |                               |
+|                                                                                                                | 8. Cook like a pro!           |
 
 ## Base URL
 
