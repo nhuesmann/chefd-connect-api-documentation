@@ -820,6 +820,9 @@ To acknowledge receipt of a webhook, a merchant's webhook handler should return 
 
 ### **Shipping update simulator - _STAGING ONLY_**
 
+* Explain it
+* Provide sample POST body
+
 ## **Stripe integration detail**
 
 Merchants that do not have full e-commerce capabilities can let Chef'd Connect handle the processing of customer payments.
