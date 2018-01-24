@@ -895,37 +895,41 @@ The following is an example of what Chef'd Connect will send to a merchant's web
       "ship_method": "FedEx Ground"
     },
     "tracking_details": {
-			"carrier": "USPS",
-			"carrier_url": "https://track.easypost.com/djE6dHJrXzRhYTY4ZGFjOGNjNzRlZDNhMTExZjhiMzZmMmU0NDRj",
-			"tracking_code": "EZ1000000001",
-			"status": "pre_transit",
-			"actual_delivery_date": "2018-01-23T20:00:00-08:00",
-			"estimated_delivery_date": "2018-01-23T06:00:00+00:00",
-			"signed_by": null,
-			"events": [{
-				"message": "Pre-Shipment information received",
-				"status": "pre_transit",
-				"date": "2018-01-21T16:45:41+00:00",
-				"source": "EasyPost",
-				"tracking_location": {
-					"city": null,
-					"state": null,
-					"zipcode": null,
-					"country": null
-				}
-			}, {
-				"message": "Shipping label created",
-				"status": "pre_transit",
-				"date": "2018-01-21T11:34:41+00:00",
-				"source": "EasyPost",
-				"tracking_location": {
-					"city": null,
-					"state": null,
-					"zipcode": null,
-					"country": null
-				}
-			}]
-		},
+      "carrier": "FedEx",
+      "carrier_url":
+        "https://track.easypost.com/djE6dHJrXzRhYTY4ZGFjOGNjNzRlZDNhMTExZjhiMzZmMmU0NDRj",
+      "tracking_code": "EZ1000000001",
+      "status": "pre_transit",
+      "actual_delivery_date": "2018-01-23T20:00:00-08:00",
+      "estimated_delivery_date": "2018-01-23T06:00:00+00:00",
+      "signed_by": null,
+      "events": [
+        {
+          "message": "Pre-Shipment information received",
+          "status": "pre_transit",
+          "date": "2018-01-21T16:45:41+00:00",
+          "source": "EasyPost",
+          "tracking_location": {
+            "city": null,
+            "state": null,
+            "zipcode": null,
+            "country": null
+          }
+        },
+        {
+          "message": "Shipping label created",
+          "status": "pre_transit",
+          "date": "2018-01-21T11:34:41+00:00",
+          "source": "EasyPost",
+          "tracking_location": {
+            "city": null,
+            "state": null,
+            "zipcode": null,
+            "country": null
+          }
+        }
+      ]
+    },
     "cancellable": false
   }
 }
