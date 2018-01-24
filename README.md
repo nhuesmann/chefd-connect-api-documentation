@@ -233,11 +233,11 @@ _Definition_
 
 _Arguments_
 
-| Argument         | Description                                                                                |        Required         |
-| ---------------- | ------------------------------------------------------------------------------------------ | :---------------------: |
-| `zipcode`        | The destination zipcode for the order. Must be in 5 or 9 digit format.                     | :ballot_box_with_check: |
-| `is_residential` | Indicates the shipping address type. Boolean.                                              | :ballot_box_with_check: |
-| `products`       | Represents the order contents. A JSON array of line item objects. Can be one or more skus. | :ballot_box_with_check: |
+| Argument         | Description                                                                                | Required |
+| ---------------- | ------------------------------------------------------------------------------------------ | :------: |
+| `zipcode`        | The destination zipcode for the order. Must be in 5 or 9 digit format.                     |    ✓     |
+| `is_residential` | Indicates the shipping address type. Boolean.                                              |    ✓     |
+| `products`       | Represents the order contents. A JSON array of line item objects. Can be one or more skus. |    ✓     |
 
 _Sample Request_
 
@@ -304,22 +304,22 @@ _Definition_
 
 _Arguments_
 
-| Argument            | Description                                                                                 |        Required         |
-| ------------------- | ------------------------------------------------------------------------------------------- | :---------------------: |
-| `merchant_order_id` | An alphanumeric string used by the merchant to identify the order in the merchant's system. | :ballot_box_with_check: |
-| `total_price`       | The total cost of all line items plus shipping.                                             |                         |
-| `subtotal_price`    | The total cost of all line items before shipping is added.                                  |                         |
-| `total_tax`         | The sum of all applicable tax.                                                              | :ballot_box_with_check: |
-| `total_discounts`   | The sum of any applied discounts.                                                           | :ballot_box_with_check: |
-| `shipping_price`    | The cost of shipping.                                                                       | :ballot_box_with_check: |
-| `currency`          | The currency code (currently, only `USD` is supported).                                     | :ballot_box_with_check: |
-| `created_at`        | The date the order is being placed.                                                         | :ballot_box_with_check: |
-| `customer`          | An object representing the customer this order is being placed for.                         | :ballot_box_with_check: |
-| `line_items`        | An array of objects containing `sku`, `quantity`, and `price`.                              | :ballot_box_with_check: |
-| `shipping_address`  | An object representing the destination shipping address.                                    | :ballot_box_with_check: |
-| `delivery_details`  | The delivery date object retrieved from the `/dates` endpoint.                              | :ballot_box_with_check: |
-| `payment_details`   | An object containing a valid `stripe_customer_id` or `stripe_token`.                        |                         |
-| `notify_customer`   | Indicates whether the customer would like to receive order updates.                         | :ballot_box_with_check: |
+| Argument            | Description                                                                                 | Required |
+| ------------------- | ------------------------------------------------------------------------------------------- | :------: |
+| `merchant_order_id` | An alphanumeric string used by the merchant to identify the order in the merchant's system. |    ✓     |
+| `total_price`       | The total cost of all line items plus shipping.                                             |          |
+| `subtotal_price`    | The total cost of all line items before shipping is added.                                  |          |
+| `total_tax`         | The sum of all applicable tax.                                                              |    ✓     |
+| `total_discounts`   | The sum of any applied discounts.                                                           |    ✓     |
+| `shipping_price`    | The cost of shipping.                                                                       |    ✓     |
+| `currency`          | The currency code (currently, only `USD` is supported).                                     |    ✓     |
+| `created_at`        | The date the order is being placed.                                                         |    ✓     |
+| `customer`          | An object representing the customer this order is being placed for.                         |    ✓     |
+| `line_items`        | An array of objects containing `sku`, `quantity`, and `price`.                              |    ✓     |
+| `shipping_address`  | An object representing the destination shipping address.                                    |    ✓     |
+| `delivery_details`  | The delivery date object retrieved from the `/dates` endpoint.                              |    ✓     |
+| `payment_details`   | An object containing a valid `stripe_customer_id` or `stripe_token`.                        |          |
+| `notify_customer`   | Indicates whether the customer would like to receive order updates.                         |    ✓     |
 
 _Sample Request_
 
@@ -452,9 +452,9 @@ _Sample Response_
 }
 ```
 
-### **Track an order**
+### **Track an order / Get order detail**
 
-Retrieves the details of an existing order. You must supply the `supplier_order_id` returned when the order was placed.
+Retrieves the details of an existing order, including tracking information. You must provide the `supplier_order_id` that was returned when the order was placed.
 
 _Definition_
 
@@ -462,9 +462,9 @@ _Definition_
 
 _Arguments_
 
-| Argument          | Description                                                |        Required         |
-| ----------------- | ---------------------------------------------------------- | :---------------------: |
-| supplier_order_id | The unique id that was returned when the order was placed. | :ballot_box_with_check: |
+| Argument          | Description                                                | Required |
+| ----------------- | ---------------------------------------------------------- | :------: |
+| supplier_order_id | The unique id that was returned when the order was placed. |    ✓     |
 
 _Sample Request_
 
@@ -611,7 +611,7 @@ _Sample Response_
 
 ### **Cancel an order**
 
-Cancels an order. This operation may only be performed within a limited window of time after the order was placed. If the order has started to be fulfilled, the order will not be able to be cancelled.
+Cancels an order. This operation may only be performed within a limited window of time after the order was placed. If the order has started to be fulfilled, the order will not be able to be cancelled. As a general rule, orders within 2 days of their intended delivery date are likely not cancellable. You can always call the order detail endpoint to ensure that `"cancellable": true`.
 
 _Definition_
 
@@ -619,9 +619,9 @@ _Definition_
 
 _Arguments_
 
-| Argument          | Description                                   |        Required         |
-| ----------------- | --------------------------------------------- | :---------------------: |
-| supplier_order_id | The id of the order you would like to cancel. | :ballot_box_with_check: |
+| Argument          | Description                                   | Required |
+| ----------------- | --------------------------------------------- | :------: |
+| supplier_order_id | The id of the order you would like to cancel. |    ✓     |
 
 _Sample Request_
 
@@ -664,9 +664,9 @@ _Definition_
 
 _Arguments_
 
-| Argument    | Description                                                     |        Required         |
-| ----------- | --------------------------------------------------------------- | :---------------------: |
-| customer_id | The id of the customer whose orders you would like to retrieve. | :ballot_box_with_check: |
+| Argument    | Description                                                     | Required |
+| ----------- | --------------------------------------------------------------- | :------: |
+| customer_id | The id of the customer whose orders you would like to retrieve. |    ✓     |
 
 _Sample Request_
 
@@ -784,3 +784,29 @@ _Sample Response_
   }
 }
 ```
+
+## **Using Shipping Webhooks**
+
+Chef'd leverages [Easypost API](https://www.easypost.com/) to provide real time shipping updates to users of Chef'd Connect.
+
+### **Setup**
+
+To register a webhook handler:
+
+1. Sign into your merchant portal
+2. Click the "Shops" link
+3. In the "Webhook Url" field, enter the target URL to which Chef'd Connect should send the webhooks
+
+Chef'd Connect will send a POST request to the listed endpoint each time the order's shipping status changes.
+
+### **Authentication**
+
+Chef’d Connect will provide a header parameter called `sign` as a means for the merchant to authenticate the incoming message before processing it. This is an optional security step.
+
+The `sign` parameter is generated by hashing the merchant app-secret and the posted data object.
+
+### **Responding to Webhooks**
+
+To acknowledge receipt of a webhook, a merchant's webhook handler should return a 2xx HTTP status code. All response codes outside this range will indicate to Chef'd Connect that you did not receive the webhook. Currently, Chef'd Connect does not retry the webhook event. This will likely be added in a future release.
+
+### **Shipping update simulator - _STAGING ONLY_**
