@@ -827,7 +827,7 @@ To acknowledge receipt of a webhook, a merchant's webhook handler should return 
 
 Merchants that do not have full e-commerce capabilities can let Chef'd Connect handle the processing of customer payments.
 
-Chef'd Connect operates as a Platform account in order to be able to process charges created by another party, namely the merchant. The merchant operates as a Connected account, accepting customer payment information, submitting it to Stripe to create a charge, then passing a secure token to Chef'd Connect for billing. More details on Stripe's API can be found by reading their [API docs](https://stripe.com/docs/connect).
+Chef'd Connect operates as a Platform account in order to be able to process charges created by another party (the merchant). The merchant operates as a Connected account - accepting customer payment information, submitting it to Stripe to create a charge, then passing a secure token to Chef'd Connect for billing. More details on Stripe's API can be found by reading their [API docs](https://stripe.com/docs/connect).
 
 The following explains the basic steps involved in charging a customer with Stripe.
 
