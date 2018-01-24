@@ -840,8 +840,7 @@ The following is an example of what Chef'd Connect will send to a merchant's web
 
 ```javascript
 {
-  "message_id": "msg101",
-  "success": true,
+  "object": "order",
   "data": {
     "supplier_order_id": "DE-KNR42",
     "merchant_order_id": "23kj4h4cslv",
