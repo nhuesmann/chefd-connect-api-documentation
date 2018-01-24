@@ -2,10 +2,10 @@
 
 Chef’d Connect API allows new partners to utilize Chef’d’s platform for meal kit fulfillment. The API can be leveraged to:
 
-* Retrieve products
-* Retrieve delivery date options
-* Create, track, and cancel orders
-* Retrieve customer order history
+* Retrieve [products](#products)
+* Retrieve [delivery date](#delivery-dates) options
+* [Create](#place-an-order), [track](#track-an-order-get-order-detail), and [cancel](#cancel-an-order) orders
+* Retrieve customer [order history](#retrieve-customer-order-history)
 
 The most common use case for Chef'd Connect is the following:
 
@@ -42,7 +42,7 @@ Tokens can be generated and updated by logging into the merchant portal (see bel
 
 ## Merchant Portal and Gaining API Access
 
-This portion of the documentation assumes you have already signed an agreement with Chef’d and are ready for account setup. If you have not done so, please contact <someemailaddress> to start that process.
+This portion of the documentation assumes you have already signed an agreement with Chef’d and are ready for account setup. If you have not done so, please contact Chef'd to start that process.
 
 After you have been confirmed as a Chef’d Connect merchant, you will be asked to choose an email address and password. Using these credentials, log into the merchant portal at the following address:
 
@@ -65,11 +65,13 @@ You may now use the generated token credentials to begin interacting with the AP
 
 While setting up your account, you should have been given the option to handle billing via either invoice or Stripe API integration. The following only applies if you chose the latter option.
 
-Chef’d Connect utilizes Stripe’s secure payment platform for all payment processing. To set this feature up, follow these steps:
+Chef’d Connect utilizes [Stripe](https://stripe.com/)’s secure payment platform for all payment processing. To set this feature up, follow these steps:
 
 1. Navigate to the Dashboard page of the Merchant Portal and click the button labeled “Connect with Stripe”. You will be redirected to Stripe’s website.
 2. If you have a Stripe account, enter the account credentials. Other wise follow the prompts to create a Stripe account.
 3. Once this has been completed, you will be redirected to the Merchant Portal’s dashboard and your Stripe account will be connected and ready for transactions.
+
+To find out more about how Chef'd Connect uses Stripe, see the detailed [Stripe section](#stripe-integration-detail) toward the bottom of this document.
 
 # Using the API
 
@@ -296,7 +298,13 @@ _Sample Response_
 
 ### **Place an order**
 
-To place an order, you must have first retrieved a valid delivery date. The body of an order
+To place an order, you must have first retrieved a valid delivery date. The body of an order is comprised of the following:
+
+* customer information
+* line items
+* shipping address
+* delivery date
+* (optional) payment related fields. Note below that all payment related fields are required if a merchant has chosen to utilize Chef'd Connect for billing via Stripe.
 
 _Definition_
 
@@ -304,22 +312,23 @@ _Definition_
 
 _Arguments_
 
-| Argument            | Description                                                                                 | Required |
-| ------------------- | ------------------------------------------------------------------------------------------- | :------: |
-| `merchant_order_id` | An alphanumeric string used by the merchant to identify the order in the merchant's system. |    ✓     |
-| `total_price`       | The total cost of all line items plus shipping.                                             |          |
-| `subtotal_price`    | The total cost of all line items before shipping is added.                                  |          |
-| `total_tax`         | The sum of all applicable tax.                                                              |    ✓     |
-| `total_discounts`   | The sum of any applied discounts.                                                           |    ✓     |
-| `shipping_price`    | The cost of shipping.                                                                       |    ✓     |
-| `currency`          | The currency code (currently, only `USD` is supported).                                     |    ✓     |
-| `created_at`        | The date the order is being placed.                                                         |    ✓     |
-| `customer`          | An object representing the customer this order is being placed for.                         |    ✓     |
-| `line_items`        | An array of objects containing `sku`, `quantity`, and `price`.                              |    ✓     |
-| `shipping_address`  | An object representing the destination shipping address.                                    |    ✓     |
-| `delivery_details`  | The delivery date object retrieved from the `/dates` endpoint.                              |    ✓     |
-| `payment_details`   | An object containing a valid `stripe_customer_id` or `stripe_token`.                        |          |
-| `notify_customer`   | Indicates whether the customer would like to receive order updates.                         |    ✓     |
+| Argument            | Description                                                                                    | Required |
+| ------------------- | ---------------------------------------------------------------------------------------------- | :------: |
+| `merchant_order_id` | An alphanumeric string used by the merchant to identify the order in the merchant's system.    |    ✓     |
+| `total_price`       | The total cost of all line items plus shipping.                                                |          |
+| `subtotal_price`    | The total cost of all line items before shipping is added.                                     |          |
+| `total_tax`         | The sum of all applicable tax.                                                                 |          |
+| `total_discounts`   | The sum of any applied discounts.                                                              |          |
+| `shipping_price`    | The cost of shipping.                                                                          |          |
+| `currency`          | The currency code (currently, only `USD` is supported).                                        |          |
+| `created_at`        | The date the order is being placed.                                                            |    ✓     |
+| `customer`          | An object representing the customer this order is being placed for.                            |    ✓     |
+| `customer.address`  | An object representing the billing address for the customer.                                   |    ✓     |
+| `line_items`        | An array of objects containing `sku`, `quantity`, and `price`.                                 |    ✓     |
+| `shipping_address`  | An object representing the destination shipping address. Can be the same as `customer.address` |    ✓     |
+| `delivery_details`  | The delivery date object retrieved from the `/dates` endpoint.                                 |    ✓     |
+| `payment_details`   | An object containing a valid `stripe_customer_id` or `stripe_token`.                           |          |
+| `notify_customer`   | Indicates whether the customer would like to receive order updates.                            |    ✓     |
 
 _Sample Request_
 
@@ -611,7 +620,7 @@ _Sample Response_
 
 ### **Cancel an order**
 
-Cancels an order. This operation may only be performed within a limited window of time after the order was placed. If the order has started to be fulfilled, the order will not be able to be cancelled. As a general rule, orders within 2 days of their intended delivery date are likely not cancellable. You can always call the order detail endpoint to ensure that `"cancellable": true`.
+Cancels an order. This operation may only be performed within a limited window of time after the order was placed. If the order has started to be fulfilled, the order will not be able to be cancelled. As a general rule, orders within 2 days of their intended delivery date are likely not cancellable. You can always call the [order detail](#track-an-order-get-order-detail) endpoint to ensure that `"cancellable": true` for the order you would like to cancel.
 
 _Definition_
 
@@ -810,3 +819,15 @@ The `sign` parameter is generated by hashing the merchant app-secret and the pos
 To acknowledge receipt of a webhook, a merchant's webhook handler should return a 2xx HTTP status code. All response codes outside this range will indicate to Chef'd Connect that you did not receive the webhook. Currently, Chef'd Connect does not retry the webhook event. This will likely be added in a future release.
 
 ### **Shipping update simulator - _STAGING ONLY_**
+
+## **Stripe integration detail**
+
+Merchants that do not have full e-commerce capabilities can let Chef'd Connect's handle the processing of customer payments.
+
+Chef'd Connect operates as a Platform account in order to be able to process charges created by another party, namely the merchant. The merchant operates as a Connected account, accepting customer payment information, submitting it to Stripe to create a charge, then passing a secure token to Chef'd Connect for billing. More details on Stripe's API can be found by reading their [API docs](https://stripe.com/docs/connect).
+
+The following explains the basic steps involved in charging a customer with Stripe.
+
+### **Charging a _new_ customer with Stripe**
+
+### **Charging an _existing_ customer with Stripe**
