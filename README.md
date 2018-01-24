@@ -963,3 +963,121 @@ The following explains the basic steps involved in charging a customer with Stri
 5. Chef'd Connect submits the charge to Stripe as a [destination charge](https://stripe.com/docs/connect/destination-charges)
 6. Chef'd Connect provides a response to the merchant indicating whether the charge was accepted or rejected. This response includes the `customer_id`
 7. Merchant renders response to the customer
+
+# **Release Log**
+
+## v2.0.0 - release date 9/18/17 (released 8:14am PT 9/18/17)
+
+* supplier_id is no longer the key for the product – it is now product_sku
+* supplier_id is no longer the key for the product variant – it is now sku
+* merchant-id is no longer part of the query string – it is now required in the header
+* fields specific to variants are no longer in the product data. Specifically:
+  * price
+  * num_of_servings
+  * variant_title
+  * inventory_quantity
+* fields specific to products are no longer in the variant data. Specifically:
+  * title
+  * subtitle
+  * type_of_meal
+* placing an order requires the use of the variant sku instead of the supplier_id
+* response codes will be 4xx for failures in validation instead of 2xx
+* all json responses will include these four sections:
+  * message_id (optional)
+  * success
+  * errors
+  * data
+* validation error responses will include error details and the name(s) of the failing field(s)
+* all dates will be provded in responses in iso format
+* we will continue to take the unix date format as input to accomodate merchants live on previous version but we will move to all iso dates in next release
+* price is not provided by the products endpoint because pricing is determined by the merchant
+* pricing information is provided by the merchant as each merchant has a unique pricing policy
+* pricing information is only used by Chef'd if Chef'd is handling billing, otherwise this data is just for convenience purposes if merchant would like to access in the future
+* shipping updates implemented
+
+## v2.0.1 - release date 9/25/17 (released 7:36am PT 9/25/17)
+
+* all integer dates will be replaced with iso 8601 for both input and output
+* all fields ending in \_iso will be removed
+* Stripe requirements finalized
+* Stripe design finalized
+
+## v2.0.2 - release date 10/2/17 (released 7:02am PT 10/2/17)
+
+* shipping tracker simulator - staging will provide shipping updates to merchant provided url utilizing a process that will mimic the data provided by shippers
+* testing - positive and negative tests integrated into Jenkins for products and dates endpoint
+
+## v2.0.3 - release date 10/9/17 (released 6:42am PT 10/9/17)
+
+* security - require merchant-id, app-id and app-secret in the dates endpoint
+* testing - positive and negative tests integrated into Jenkins for orders endpoint
+* testing - performance tests integrated into Jenkins for products, dates and orders endpoints
+* production - ready for a production test to ship a box
+
+## v2.0.4 - release date 10/16/17 (released 5:32am PT 10/16/17)
+
+* orders - zip code basic validation added for billing address
+* orders - state basic validation added for billing address
+* logging - verbose logging enabled to investigate performance issues with products and dates endpoints
+* testing - end to end tests created for placing orders and all related endpoints
+
+## v2.0.5 - release date 10/30/17 (released 4:50am PT 10/31/17)
+
+* Stripe - Stripe order processing completed for submitting charges
+* products - performance issue resolved with sub 500ms response time
+* products - product skus updated to differentiate from variant sku
+
+## v2.0.6 - release date 11/06/17 (released 6:04am PT 11/07/17)
+
+* dates - performance issues first iteration of improvements (average 1 second response time)
+
+## v2.0.7 - release date 11/13/17 (released 7:30am PT 11/14/17)
+
+* dates - performance issues second iteration of improvements
+* Stripe - save customer information completed for connected account
+* orders - bug order not getting to netsuite fixed
+
+## v2.0.8 - release date 11/20/17 (released 8:12am PT 11/20/17)
+
+* orders - cancel order endpoint first release
+* Stripe - create merchant and submit order complete for connected account
+
+## v2.0.9 - release date 12/4/17 (released 7:10am PT 12/4/17)
+
+* orders - cancel order endpoint updates
+* orders - added 'cancellable' field to GET to check cancel status
+* products - retail_price added to the products endpoint (for reference)
+
+## v2.1.0 - release date 1/15/18 (released 6:20am PT 1/15/18)
+
+* orders - discount field enabled
+* shipping updates - fixed shipping updates load balancer issue
+* orders - made 'email' field associated with customer
+
+## Proposed future features
+
+* API - Add shipping address location validation - 5 days
+* API - Implement retries on shipment updates - 5 days
+* API - Accept discount codes - 10 days
+* API - Nutritional Information - 8 days
+* Portal - Make it easier to select the products in portal - 3 days
+* Portal - need to indicate which fields are required when creating a shop
+* Portal - Shop URL field required to begin with http://
+* Portal - Add description of fields (i.e. webhook and what it is used for)
+* Apps - need to be able to delete an app
+* Apps - clean up the UI of the app page, formatting is broken unless page is extremely large
+* Apps - change button label of the circling arrows to read “refresh app secret” or something similar
+* Apps - add “delete app” button near “refresh app secret” button
+
+## Bugs Reported
+
+* 9/25/17 - When order is placed validation of available quantity is not working (status: complete)
+* 9/29/17 - Improve response time on dates endpoint (status: improved to 1 second so far)
+* 10/4/17 - Response time for products is slow when there are several products (status: complete)
+* 10/6/17 - No basic validation for shipping zip code (statas: complete)
+* 10/6/17 - No basic validation for shipping state (status: complete)
+* 10/6/17 - No basic validation for shipping town (status: complete)
+* 10/13/17 - Zip code of 9 digits not supported (status: backlog)
+* 11/10/17 - Order failed to get to Netsuite (status: complete)
+* 12/20/17 - shipping updates failing (status: complete)
+* 1/4/18 - Email confirmation not working (status: found issue to be fixed 1/19/18)
