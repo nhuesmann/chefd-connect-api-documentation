@@ -52,11 +52,11 @@ After you have been confirmed as a Chef’d Connect merchant, you will be asked 
 
 Once logged in, you will need to do the following:
 
-1. Create a Shop
-   * Click the Shops navigation link
-   * Fill out the required fields and click Create when finished
-2. Create an App token
-   * Click the Apps navigation link
+1. Create a Shop.
+   * Click the Shops navigation link.
+   * Fill out the required fields and click Create when finished.
+2. Create an App token.
+   * Click the Apps navigation link.
    * Click Create App to generate an App token.
 
 You may now use the generated token credentials to begin interacting with the API.
@@ -68,14 +68,14 @@ While setting up your account, you should have been given the option to handle b
 Chef’d Connect utilizes [Stripe](https://stripe.com/)’s secure payment platform for all payment processing. To set this feature up, follow these steps:
 
 1. Navigate to the Dashboard page of the Merchant Portal and click the button labeled “Connect with Stripe”. You will be redirected to Stripe’s website.
-2. If you have a Stripe account, enter the account credentials. Other wise follow the prompts to create a Stripe account.
-3. Once this has been completed, you will be redirected to the Merchant Portal’s dashboard and your Stripe account will be connected and ready for transactions.
+2. If you have a Stripe account, enter the account credentials. Otherwise follow the prompts to create a Stripe account.
+3. Once this has been completed you will be redirected to the Merchant Portal’s dashboard and your Stripe account will be connected and ready for transactions.
 
 To find out more about how Chef'd Connect uses Stripe, see the detailed [Stripe section](#stripe-integration-detail) toward the bottom of this document.
 
 # Using the API
 
-All responses to successful requests will adhere to the following format:
+All responses to **successful** requests will adhere to the following format:
 
 ```javascript
 {
@@ -87,7 +87,7 @@ All responses to successful requests will adhere to the following format:
 }
 ```
 
-All responses to failed requests will adhere to the following format:
+All responses to **failed** requests will adhere to the following format:
 
 ```javascript
 {
@@ -120,12 +120,12 @@ _Arguments_
 
 | Argument | Description                                                                                       | Required |
 | -------- | ------------------------------------------------------------------------------------------------- | :------: |
-| limit    | A limit on the number of objects to be returned.                                                  |          |
-| offset   | A cursor for use in pagination.                                                                   |          |
-| sort     | A field to sort the results by (A list of valid options will be provided soon).                   |          |
-| filter   | Field/value pairs to filter the results by.                                                       |          |
-| search   | A search term to limit the results by. Only products containing the search term will be returned. |          |
-| fields   | A list of fields to limit the response body to.                                                   |          |
+| `limit`  | A limit on the number of objects to be returned.                                                  |          |
+| `offset` | A cursor for use in pagination.                                                                   |          |
+| `sort`   | A field to sort the results by (A list of valid options will be provided soon).                   |          |
+| `filter` | Field/value pairs to filter the results by.                                                       |          |
+| `search` | A search term to limit the results by. Only products containing the search term will be returned. |          |
+| `fields` | A list of fields to limit the response body to.                                                   |          |
 
 _Sample Request_
 
@@ -304,7 +304,7 @@ To place an order, you must have first retrieved a valid delivery date. The body
 * line items
 * shipping address
 * delivery date
-* (optional) payment related fields. Note below that all payment related fields are required if a merchant has chosen to utilize Chef'd Connect for billing via Stripe.
+* (optional) payment related fields - note below that all payment related fields are required if a merchant has chosen to utilize Chef'd Connect for billing via Stripe
 
 _Definition_
 
@@ -471,9 +471,9 @@ _Definition_
 
 _Arguments_
 
-| Argument          | Description                                                | Required |
-| ----------------- | ---------------------------------------------------------- | :------: |
-| supplier_order_id | The unique id that was returned when the order was placed. |    ✓     |
+| Argument            | Description                                                | Required |
+| ------------------- | ---------------------------------------------------------- | :------: |
+| `supplier_order_id` | The unique id that was returned when the order was placed. |    ✓     |
 
 _Sample Request_
 
@@ -628,9 +628,9 @@ _Definition_
 
 _Arguments_
 
-| Argument          | Description                                   | Required |
-| ----------------- | --------------------------------------------- | :------: |
-| supplier_order_id | The id of the order you would like to cancel. |    ✓     |
+| Argument            | Description                                   | Required |
+| ------------------- | --------------------------------------------- | :------: |
+| `supplier_order_id` | The id of the order you would like to cancel. |    ✓     |
 
 _Sample Request_
 
@@ -673,9 +673,9 @@ _Definition_
 
 _Arguments_
 
-| Argument    | Description                                                     | Required |
-| ----------- | --------------------------------------------------------------- | :------: |
-| customer_id | The id of the customer whose orders you would like to retrieve. |    ✓     |
+| Argument      | Description                                                     | Required |
+| ------------- | --------------------------------------------------------------- | :------: |
+| `customer_id` | The id of the customer whose orders you would like to retrieve. |    ✓     |
 
 _Sample Request_
 
@@ -796,15 +796,15 @@ _Sample Response_
 
 # **Using Shipping Webhooks**
 
-Chef'd leverages [Easypost API](https://www.easypost.com/) to provide real time shipping updates to users of Chef'd Connect.
+Chef'd Connect leverages [Easypost API](https://www.easypost.com/) to provide real time shipping updates to merchants.
 
 ## **Setup**
 
 To register a webhook handler:
 
-1. Sign into your merchant portal
-2. Click the "Shops" link
-3. In the "Webhook Url" field, enter the target URL to which Chef'd Connect should send the webhooks
+1. Sign into your merchant portal.
+2. Click the "Shops" link.
+3. In the "Webhook Url" field, enter the target URL to which Chef'd Connect should send the webhooks.
 
 Chef'd Connect will send a POST request to the listed endpoint each time the order's shipping status changes.
 
@@ -945,24 +945,24 @@ The following explains the basic steps involved in charging a customer with Stri
 
 ## **Charging a _new_ customer**
 
-1. Customer enters billing and credit card information into merchant UI and clicks to purchase
-2. Merchant uses Stripe API to create a charge token
-3. Merchant sends order to Chef'd Connect, including the charge token
-4. Chef'd Connect creates a new Stripe customer object by sending customer billing information and token to Stripe
-5. Chef'd Connect submits the charge to Stripe as a [destination charge](https://stripe.com/docs/connect/destination-charges)
-6. Chef'd Connect provides a response to the merchant indicating whether the charge was accepted or rejected. This response includes the `customer_id`
-7. Merchant saves `customer_id` to their database
-8. Merchant renders response to the customer
+1. Customer enters billing and credit card information into merchant UI and clicks to purchase.
+2. Merchant uses Stripe API to create a charge token.
+3. Merchant sends order to Chef'd Connect, including the charge token.
+4. Chef'd Connect creates a new Stripe customer object by sending customer billing information and token to Stripe.
+5. Chef'd Connect submits the charge to Stripe as a [destination charge](https://stripe.com/docs/connect/destination-charges).
+6. Chef'd Connect provides a response to the merchant indicating whether the charge was accepted or rejected. This response includes the `customer_id`.
+7. Merchant saves `customer_id` to their database.
+8. Merchant renders response to the customer.
 
 ## **Charging an _existing_ customer**
 
-1. Customer logs into merchant website
-2. Merchant retrieves `customer_id` of logged in customer
-3. Customer clicks to purchase using saved credit card and billing information
-4. Merchant sends order to Chef'd Connect, including the `customer_id`
-5. Chef'd Connect submits the charge to Stripe as a [destination charge](https://stripe.com/docs/connect/destination-charges)
-6. Chef'd Connect provides a response to the merchant indicating whether the charge was accepted or rejected. This response includes the `customer_id`
-7. Merchant renders response to the customer
+1. Customer logs into merchant website.
+2. Merchant retrieves `customer_id` of logged in customer.
+3. Customer clicks to purchase using saved credit card and billing information.
+4. Merchant sends order to Chef'd Connect, including the `customer_id`.
+5. Chef'd Connect submits the charge to Stripe as a [destination charge](https://stripe.com/docs/connect/destination-charges).
+6. Chef'd Connect provides a response to the merchant indicating whether the charge was accepted or rejected. This response includes the `customer_id`.
+7. Merchant renders response to the customer.
 
 # **Release Log**
 
